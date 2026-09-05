@@ -18,7 +18,7 @@ export function QuizCard({
 }) {
   const [picked, setPicked] = useState<number | null>(null);
   const answered = picked !== null;
-  const isCorrect = answered && !!options[picked!].correct;
+  const isCorrect = answered && !!options[picked]?.correct;
 
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-start">

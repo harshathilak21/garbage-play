@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [step, setStep] = useState(0);
-  const chapter = chapters[step];
+  const chapter = chapters[step] ?? chapters[0]!;
   const progress = ((step + 1) / chapters.length) * 100;
 
   useEffect(() => {
