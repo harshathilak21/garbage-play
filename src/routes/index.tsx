@@ -74,7 +74,11 @@ function Index() {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
-        <div key={chapter.id}>{chapter.render()}</div>
+        <div key={chapter.id}>
+          {chapter.render({
+            onNext: () => setStep((s) => Math.min(chapters.length - 1, s + 1)),
+          })}
+        </div>
       </main>
 
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/90 px-4 py-3 backdrop-blur">
