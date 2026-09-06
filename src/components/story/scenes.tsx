@@ -1180,8 +1180,12 @@ function FinalSummary() {
 
 /* ---------- exported chapter list ---------- */
 
-export const chapters: { id: string; nav: string; render: () => ReactNode }[] = [
-  { id: "intro", nav: "Introduction", render: () => <Intro /> },
+export const chapters: {
+  id: string;
+  nav: string;
+  render: (ctx: { onNext: () => void }) => ReactNode;
+}[] = [
+  { id: "intro", nav: "Introduction", render: ({ onNext }) => <Intro onNext={onNext} /> },
   { id: "library", nav: "Everwell Library", render: () => <EverwellLibrary /> },
   { id: "book", nav: "The One Book", render: () => <OneBook /> },
   { id: "table", nav: "Reading Table", render: () => <TheReadingTable /> },
