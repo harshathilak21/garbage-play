@@ -77,24 +77,28 @@ function MappingRow({ story, python }: { story: string; python: string }) {
 
 /* ---------- 1. Introduction ---------- */
 
-function Intro() {
+function Intro({ onNext }: { onNext?: () => void }) {
   return (
     <SceneShell>
       <Stage className="text-center">
         <LibraryBackdrop />
         <div className="relative">
           <span className="label-chip">PyBay · Python Learning Platform</span>
-          <h1 className="mt-5 text-5xl font-semibold sm:text-6xl">Garbage Collection</h1>
-          <p className="mt-3 font-display text-2xl text-[var(--accent-strong)]">“The One Library Book”</p>
+          <h1 className="mt-5 text-4xl font-semibold sm:text-5xl">
+            Would you like to explore Garbage Collection?
+          </h1>
           <div className="mx-auto mt-8 flex max-w-3xl flex-wrap items-end justify-center gap-6">
             <Bookshelf width={150} />
             <PythonAdventureBook size={110} glow />
             <Bookshelf width={150} />
           </div>
-          <p className="mx-auto mt-8 max-w-2xl narration">
-            Everwell Library has thousands of books — but our story is about just one particular book: a
-            single copy of “The Python Adventure.”
-          </p>
+          <button
+            type="button"
+            onClick={onNext}
+            className="mt-10 rounded-full bg-primary px-8 py-3 text-base font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5"
+          >
+            OK, Let’s Explore →
+          </button>
         </div>
       </Stage>
     </SceneShell>
@@ -121,10 +125,11 @@ function EverwellLibrary() {
           <Bookshelf width={120} />
           <Bookshelf width={120} />
         </div>
-        <p className="mt-6 text-center text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-          Thousands of books → one shelf → one book
-        </p>
       </Stage>
+      <div className="mt-6 grid gap-4">
+        <Narration>Welcome to Everwell Library.</Narration>
+        <Narration>Everwell Library has thousands of books.</Narration>
+      </div>
     </SceneShell>
   );
 }
@@ -133,7 +138,7 @@ function EverwellLibrary() {
 
 function OneBook() {
   return (
-    <SceneShell eyebrow="Scene Two" title="The One Important Book">
+    <SceneShell eyebrow="Scene Two" title="The Python Adventure">
       <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-center">
         <Stage className="flex flex-col items-center gap-6">
           <Bookshelf width={230} highlightSlot />
@@ -142,8 +147,10 @@ function OneBook() {
         </Stage>
         <div className="grid gap-4">
           <Narration>
-            Out of every shelf in Everwell, one copy matters to us. Wherever it travels in this story, it
-            keeps the same red spine — so you can always spot it.
+            Among these thousands of books, there is one particular book called “The Python Adventure.”
+          </Narration>
+          <Narration>
+            There is only one copy of “The Python Adventure” in the entire library.
           </Narration>
           <StatusPanel
             rows={[
@@ -157,6 +164,7 @@ function OneBook() {
     </SceneShell>
   );
 }
+
 
 /* ---------- 4. Reading table ---------- */
 
@@ -1172,8 +1180,12 @@ function FinalSummary() {
 
 /* ---------- exported chapter list ---------- */
 
-export const chapters: { id: string; nav: string; render: () => ReactNode }[] = [
-  { id: "intro", nav: "Introduction", render: () => <Intro /> },
+export const chapters: {
+  id: string;
+  nav: string;
+  render: (ctx: { onNext: () => void }) => ReactNode;
+}[] = [
+  { id: "intro", nav: "Introduction", render: ({ onNext }) => <Intro onNext={onNext} /> },
   { id: "library", nav: "Everwell Library", render: () => <EverwellLibrary /> },
   { id: "book", nav: "The One Book", render: () => <OneBook /> },
   { id: "table", nav: "Reading Table", render: () => <TheReadingTable /> },
