@@ -493,6 +493,12 @@ function StateSummary() {
           </div>
         </Stage>
       </div>
+      <div className="mt-6">
+        <Narration>
+          This rule has worked perfectly so far. But there’s one more kind of book in this library where it
+          gets tested.
+        </Narration>
+      </div>
     </SceneShell>
   );
 }
@@ -609,29 +615,32 @@ function Questions() {
         />
         <QuizCard
           index={4}
-          question="In the Priya-and-Dev twist, why don't their book parts go back to the shelf even though nobody else needs them?"
+          question="In the Priya-and-Dev twist, why don't Part 1 and Part 2 go back to the shelf even though nobody else needs them?"
           options={[
-            { text: "They still refer to each other through their notes.", correct: true },
+            { text: "They still point to each other through their printed continuation lines.", correct: true },
             { text: "The librarian forgot about them." },
             { text: "Parts of a book can never be shelved." },
             { text: "They were checked out permanently." },
           ]}
-          reason="Priya's note points to Dev, and Dev's note points to Priya. So by the librarian's normal rule, neither one ever looks fully free."
+          reason="Part 1 ends with “Continued in Part 2,” and Part 2 opens with “Continued from Part 1.” Each printed line counts as something pointing at the other part, so by the librarian's normal rule neither one ever looks free."
           visual={
             <div className="flex flex-col items-center gap-4">
               <div className="flex flex-wrap items-center justify-center gap-6">
                 <div className="flex flex-col items-center gap-2">
-                  <PythonAdventureBook size={62} title="Priya · Part 1" />
-                  <StickyNote>“Part 2 is with Dev.”</StickyNote>
+                  <PythonAdventureBook size={62} title="Part 1" spine="var(--character-priya)" />
+                  <p className="max-w-[10rem] rounded-md border border-border bg-[var(--book-page)] px-3 py-2 text-center font-display text-xs italic text-[var(--ink)]">
+                    “Continued in Part 2”
+                  </p>
                 </div>
                 <CycleArrows size={160} />
                 <div className="flex flex-col items-center gap-2">
-                  <PythonAdventureBook size={62} title="Dev · Part 2" spine="var(--character-dev)" />
-                  <StickyNote tone="pink" rotate={3}>
-                    “Part 1 is with Priya.”
-                  </StickyNote>
+                  <PythonAdventureBook size={62} title="Part 2" spine="var(--character-dev)" />
+                  <p className="max-w-[10rem] rounded-md border border-border bg-[var(--book-page)] px-3 py-2 text-center font-display text-xs italic text-[var(--ink)]">
+                    “Continued from Part 1”
+                  </p>
                 </div>
               </div>
+              <span className="arrow-label">Part 1 → Part 2 → Part 1</span>
             </div>
           }
         />
@@ -639,26 +648,27 @@ function Questions() {
           index={5}
           question="Whose job is it to catch the Priya-and-Dev situation, which the librarian's usual rule misses?"
           options={[
-            { text: "Alex and Sam." },
+            { text: "Priya and Dev." },
             { text: "The head of the library." },
             { text: "Nobody — it stays forever." },
             { text: "The periodic inspector.", correct: true },
           ]}
-          reason="The librarian only checks “is anyone holding this?” — a check that Priya and Dev's pair always passes, since they hold each other. The inspector catches pairs that only reference one another."
+          reason="The librarian only checks “is anything pointing at this?” — a check the two parts always pass, since each printed line points at the other. The inspector looks for pairs that only point at each other, with no reader anywhere in the chain."
           visual={
             <div className="flex flex-col items-center gap-4">
               <Character name="inspector" size={110} />
               <div className="flex items-center gap-4">
-                <ObjectBox title="Priya" items={["Part 1"]} />
+                <ObjectBox title="Part 1" items={["→ Part 2"]} />
                 <CycleArrows size={140} />
-                <ObjectBox title="Dev" items={["Part 2"]} />
+                <ObjectBox title="Part 2" items={["→ Part 1"]} />
               </div>
               <span className="rounded-full border-2 border-[var(--danger)] px-5 py-2 font-display text-lg font-semibold text-[var(--danger)]">
-                Cycle Found
+                Cycle Found · No Readers
               </span>
             </div>
           }
         />
+
       </div>
     </SceneShell>
   );
@@ -925,19 +935,15 @@ function Inspector() {
           {stage === 1 && <p className="scene-enter narration">The inspector walks the library every so often — not constantly.</p>}
           {stage === 2 && (
             <p className="scene-enter font-display text-3xl font-semibold text-[var(--danger)]">
-              CYCLE DETECTED · NO OUTSIDE REFERENCES
+              CYCLE FOUND · NO READERS ANYWHERE IN THE CHAIN
             </p>
           )}
           {stage === 3 && (
             <p className="scene-enter font-display text-2xl font-semibold text-[var(--accent-strong)]">
-              Both objects cleared together
+              Both parts cleared to the shelf together
             </p>
           )}
         </div>
-
-        <p className="relative mt-4 text-center text-sm text-muted-foreground">
-          This is Python’s <code className="font-mono">gc</code> — the cyclic garbage collector.
-        </p>
       </Stage>
     </SceneShell>
   );
@@ -1195,15 +1201,15 @@ export const chapters: {
   { id: "day2", nav: "Day 2 — Sam", render: () => <Day2 /> },
   { id: "day3", nav: "Day 3 — Return", render: () => <Day3 /> },
   { id: "summary", nav: "Story Summary", render: () => <StateSummary /> },
+  { id: "twist", nav: "Priya & Dev", render: () => <PriyaDev /> },
+  { id: "inspector", nav: "The Inspector", render: () => <Inspector /> },
   { id: "quiz-intro", nav: "You Already Know", render: () => <QuizIntro /> },
   { id: "questions", nav: "Five Questions", render: () => <Questions /> },
   { id: "reveal", nav: "Python Reveal", render: () => <PythonReveal /> },
   { id: "q1-python", nav: "Q1 → Python", render: () => <Q1Python /> },
   { id: "q2-python", nav: "Q2 → Python", render: () => <Q2Python /> },
   { id: "q3-python", nav: "Reference Counting", render: () => <Q3Python /> },
-  { id: "twist", nav: "Priya & Dev", render: () => <PriyaDev /> },
   { id: "cycle", nav: "Cyclic Reference", render: () => <CyclicReference /> },
-  { id: "inspector", nav: "The Inspector", render: () => <Inspector /> },
   { id: "model", nav: "Final Model", render: () => <FinalModel /> },
   { id: "code1", nav: "Code Challenge 1", render: () => <CodeChallenge1 /> },
   { id: "code2", nav: "Code Challenge 2", render: () => <CodeChallenge2 /> },
