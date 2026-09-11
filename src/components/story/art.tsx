@@ -7,25 +7,25 @@ import type { ReactNode } from "react";
  * and animate them independently.
  * ------------------------------------------------------------------ */
 
-type CharacterName = "riya" | "kabir" | "librarian" | "inspector" | "alex" | "sam";
+type CharacterName = "alex" | "sam" | "librarian" | "inspector" | "priya" | "dev";
 
 const CHARACTER_STYLE: Record<
   CharacterName,
   { skin: string; hair: string; cloth: string; cloth2: string; label: string }
 > = {
-  riya: {
+  alex: {
     skin: "var(--skin-warm)",
     hair: "var(--ink)",
-    cloth: "var(--character-riya)",
-    cloth2: "var(--character-riya-dark)",
-    label: "Riya",
+    cloth: "var(--character-alex)",
+    cloth2: "var(--character-alex-dark)",
+    label: "Alex",
   },
-  kabir: {
+  sam: {
     skin: "var(--skin-deep)",
     hair: "var(--ink)",
-    cloth: "var(--character-kabir)",
-    cloth2: "var(--character-kabir-dark)",
-    label: "Kabir",
+    cloth: "var(--character-sam)",
+    cloth2: "var(--character-sam-dark)",
+    label: "Sam",
   },
   librarian: {
     skin: "var(--skin-light)",
@@ -41,19 +41,19 @@ const CHARACTER_STYLE: Record<
     cloth2: "var(--character-inspector-dark)",
     label: "The Inspector",
   },
-  alex: {
+  priya: {
     skin: "var(--skin-light)",
     hair: "var(--ink)",
-    cloth: "var(--character-alex)",
-    cloth2: "var(--character-alex-dark)",
-    label: "Alex",
+    cloth: "var(--character-priya)",
+    cloth2: "var(--character-priya-dark)",
+    label: "Priya",
   },
-  sam: {
+  dev: {
     skin: "var(--skin-deep)",
     hair: "var(--ink)",
-    cloth: "var(--character-sam)",
-    cloth2: "var(--character-sam-dark)",
-    label: "Sam",
+    cloth: "var(--character-dev)",
+    cloth2: "var(--character-dev-dark)",
+    label: "Dev",
   },
 };
 
@@ -130,10 +130,10 @@ export function Character({
         {/* head */}
         <circle cx="50" cy="36" r="18" fill={s.skin} />
         {/* hair */}
-        {name === "riya" && (
+        {name === "alex" && (
           <path d="M31 36 a19 19 0 0 1 38 0 q-6 -12 -19 -12 t-19 12 Z M28 34 q-4 22 6 30 q-8 -16 -3 -30 Z" fill={s.hair} />
         )}
-        {name === "kabir" && <path d="M32 33 a18 18 0 0 1 36 0 q-18 -9 -36 0 Z" fill={s.hair} />}
+        {name === "sam" && <path d="M32 33 a18 18 0 0 1 36 0 q-18 -9 -36 0 Z" fill={s.hair} />}
         {name === "librarian" && (
           <>
             <path d="M31 34 a19 19 0 0 1 38 0 q-19 -10 -38 0 Z" fill={s.hair} />
@@ -147,7 +147,7 @@ export function Character({
             <rect x="36" y="16" width="28" height="12" rx="5" fill={s.cloth2} />
           </>
         )}
-        {(name === "alex" || name === "sam") && (
+        {(name === "priya" || name === "dev") && (
           <path d="M32 33 a18 18 0 0 1 36 0 q-18 -10 -36 0 Z" fill={s.hair} />
         )}
         {/* face */}

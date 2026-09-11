@@ -237,7 +237,7 @@ function LibrarianRule() {
 function Day1() {
   const [step, setStep] = useState(0);
   const steps = [
-    "Riya enters the library",
+    "Alex enters the library",
     "She walks to the shelf",
     "She takes The Python Adventure",
     "She sits at the Reading Table and reads",
@@ -248,7 +248,7 @@ function Day1() {
   }, []);
 
   return (
-    <SceneShell eyebrow="Day 1" title="Riya Picks Up The Book">
+    <SceneShell eyebrow="Day 1" title="Alex Picks Up The Book">
       <Stage>
         <LibraryBackdrop className="opacity-15" />
         <div className="relative flex flex-wrap items-end justify-center gap-10">
@@ -259,11 +259,11 @@ function Day1() {
 
           {step < 3 ? (
             <div className="walk-in">
-              <Character name="riya" size={130} holdingBook={step >= 2} />
+              <Character name="alex" size={130} holdingBook={step >= 2} />
             </div>
           ) : (
             <div className="flex items-end gap-2">
-              <Character name="riya" size={130} seated holdingBook />
+              <Character name="alex" size={130} seated holdingBook />
             </div>
           )}
 
@@ -293,7 +293,7 @@ function Day1() {
       </Stage>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.3fr_1fr]">
-        <Narration>Riya picks up the book from the shelf and sits at the Reading Table with it.</Narration>
+        <Narration>Alex picks up the book from the shelf and sits at the Reading Table with it.</Narration>
         <StatusPanel
           rows={[
             { label: "Book", value: "The Python Adventure" },
@@ -314,7 +314,7 @@ function Day1Meaning() {
     <SceneShell eyebrow="Day 1 · What it means" title="The Book Is Being Used">
       <Stage className="flex flex-col items-center gap-6">
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Character name="riya" size={120} />
+          <Character name="alex" size={120} />
           <ReferenceArrow label="Reference / holding the book" length={190} />
           <PythonAdventureBook size={90} />
         </div>
@@ -333,16 +333,16 @@ function Day1Meaning() {
 function Day2() {
   const [passed, setPassed] = useState(false);
   return (
-    <SceneShell eyebrow="Day 2" title="Riya Passes The Book To Kabir">
+    <SceneShell eyebrow="Day 2" title="Alex Passes The Book To Sam">
       <Stage>
         <LibraryBackdrop className="opacity-15" />
         <div className="relative flex flex-col items-center">
           <div className="flex flex-wrap items-end justify-center gap-6">
-            <Character name="riya" size={125} seated holdingBook={!passed} />
+            <Character name="alex" size={125} seated holdingBook={!passed} />
             <div className={passed ? "slide-across" : undefined}>
               <PythonAdventureBook size={70} glow />
             </div>
-            <Character name="kabir" size={125} seated holdingBook={passed} facing="left" />
+            <Character name="sam" size={125} seated holdingBook={passed} facing="left" />
           </div>
           <ReadingTable width={330} />
           <button
@@ -350,18 +350,18 @@ function Day2() {
             onClick={() => setPassed((p) => !p)}
             className="mt-4 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5"
           >
-            {passed ? "Replay the hand-off" : "Slide the book to Kabir"}
+            {passed ? "Replay the hand-off" : "Slide the book to Sam"}
           </button>
         </div>
 
         <div className="relative mt-8 grid gap-4 sm:grid-cols-2">
           <div className={cn("flex items-center justify-center gap-3 rounded-2xl border-2 p-4", passed ? "border-border opacity-45" : "border-[var(--accent-strong)] bg-accent text-accent-foreground")}>
-            <strong>Riya</strong>
+            <strong>Alex</strong>
             <ReferenceArrow length={70} />
             <strong>Book</strong>
           </div>
           <div className={cn("flex items-center justify-center gap-3 rounded-2xl border-2 p-4", passed ? "border-[var(--accent-strong)] bg-accent text-accent-foreground" : "border-border opacity-45")}>
-            <strong>Kabir</strong>
+            <strong>Sam</strong>
             <ReferenceArrow length={70} />
             <strong>Book</strong>
           </div>
@@ -371,8 +371,8 @@ function Day2() {
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.3fr_1fr]">
         <div className="grid gap-4">
           <Narration>
-            Riya finishes, but instead of walking it back to the shelf herself, she slides it across the table
-            to her friend Kabir, who’s sitting right there.
+            Alex finishes, but instead of walking it back to the shelf herself, she slides it across the table
+            to her friend Sam, who’s sitting right there.
           </Narration>
           <Narration>
             The book never left the Reading Table. Someone still needs it — just a different person now.
@@ -383,7 +383,7 @@ function Day2() {
             { label: "Location", value: "Reading Table" },
             { label: "Readers", value: "1", tone: "good" },
             { label: "Status", value: "Still In Use", tone: "good" },
-            { label: "Who", value: passed ? "Kabir" : "Riya" },
+            { label: "Who", value: passed ? "Sam" : "Alex" },
           ]}
         />
       </div>
@@ -415,7 +415,7 @@ function Day3() {
           <div className="flex flex-col items-center">
             <LibraryWindow width={100} />
             <ReadingTable width={260} empty={phase >= 3}>
-              {phase === 0 && <Character name="kabir" size={110} seated holdingBook />}
+              {phase === 0 && <Character name="sam" size={110} seated holdingBook />}
               {(phase === 1 || phase === 2) && <PythonAdventureBook size={62} />}
             </ReadingTable>
           </div>
@@ -426,7 +426,7 @@ function Day3() {
         </div>
 
         <div className="relative mt-8 flex flex-wrap justify-center gap-2">
-          {["Kabir is reading", "Kabir leaves — zero readers", "Librarian walks over", "Book returns to shelf"].map(
+          {["Sam is reading", "Sam leaves — zero readers", "Librarian walks over", "Book returns to shelf"].map(
             (label, i) => (
               <button
                 key={label}
@@ -474,7 +474,7 @@ function StateSummary() {
       <div className="grid gap-6 md:grid-cols-2">
         <Stage className="flex flex-col items-center gap-4">
           <span className="label-chip">In Use</span>
-          <Character name="kabir" size={100} seated holdingBook />
+          <Character name="sam" size={100} seated holdingBook />
           <ReadingTable width={230}>
             <PythonAdventureBook size={58} />
           </ReadingTable>
@@ -510,8 +510,8 @@ function QuizIntro() {
             Let’s see if you can solve the story before we reveal what Python calls it.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-6">
-            <Character name="riya" size={100} />
-            <Character name="kabir" size={100} />
+            <Character name="alex" size={100} />
+            <Character name="sam" size={100} />
             <Character name="librarian" size={100} />
           </div>
         </div>
@@ -557,23 +557,23 @@ function Questions() {
         />
         <QuizCard
           index={2}
-          question="On Day 2, Riya slides the book to Kabir instead of the shelf. Why doesn't the librarian take it back?"
+          question="On Day 2, Alex slides the book to Sam instead of the shelf. Why doesn't the librarian take it back?"
           options={[
             { text: "The librarian was on a break." },
             { text: "Someone is still reading it — just a different person now.", correct: true },
-            { text: "Riya never released the book." },
-            { text: "Kabir asked the librarian for permission." },
+            { text: "Alex never released the book." },
+            { text: "Sam asked the librarian for permission." },
           ]}
           reason="The librarian's rule only cares whether someone needs the book, not who that someone is. The reader changed, but the book never had zero readers, so it never left the table."
           visual={
             <div className="flex flex-col items-center gap-4">
               <div className="flex items-center gap-3 opacity-45">
-                <Character name="riya" size={80} showLabel={false} />
+                <Character name="alex" size={80} showLabel={false} />
                 <ReferenceArrow tone="muted" length={80} />
                 <PythonAdventureBook size={52} title="" />
               </div>
               <div className="flex items-center gap-3">
-                <Character name="kabir" size={80} showLabel={false} />
+                <Character name="sam" size={80} showLabel={false} />
                 <ReferenceArrow length={80} />
                 <PythonAdventureBook size={52} title="" />
               </div>
@@ -589,12 +589,12 @@ function Questions() {
           index={3}
           question="What is the exact moment the librarian takes the book back to the shelf?"
           options={[
-            { text: "As soon as Riya finishes." },
+            { text: "As soon as Alex finishes." },
             { text: "At closing time each day." },
             { text: "The moment zero people are reading it.", correct: true },
             { text: "When a new reader asks for a different book." },
           ]}
-          reason="Riya finishing on Day 2 didn't trigger the return, because Kabir picked it up right away. It only goes back once the count of readers actually reaches zero."
+          reason="Alex finishing on Day 2 didn't trigger the return, because Sam picked it up right away. It only goes back once the count of readers actually reaches zero."
           visual={
             <div className="flex flex-col items-center gap-3">
               <RefCounter value={1} label="Readers" />
@@ -609,26 +609,26 @@ function Questions() {
         />
         <QuizCard
           index={4}
-          question="In the Alex-and-Sam twist, why don't their book parts go back to the shelf even though nobody else needs them?"
+          question="In the Priya-and-Dev twist, why don't their book parts go back to the shelf even though nobody else needs them?"
           options={[
             { text: "They still refer to each other through their notes.", correct: true },
             { text: "The librarian forgot about them." },
             { text: "Parts of a book can never be shelved." },
             { text: "They were checked out permanently." },
           ]}
-          reason="Alex's note points to Sam, and Sam's note points to Alex. So by the librarian's normal rule, neither one ever looks fully free."
+          reason="Priya's note points to Dev, and Dev's note points to Priya. So by the librarian's normal rule, neither one ever looks fully free."
           visual={
             <div className="flex flex-col items-center gap-4">
               <div className="flex flex-wrap items-center justify-center gap-6">
                 <div className="flex flex-col items-center gap-2">
-                  <PythonAdventureBook size={62} title="Alex · Part 1" />
-                  <StickyNote>“Part 2 is with Sam.”</StickyNote>
+                  <PythonAdventureBook size={62} title="Priya · Part 1" />
+                  <StickyNote>“Part 2 is with Dev.”</StickyNote>
                 </div>
                 <CycleArrows size={160} />
                 <div className="flex flex-col items-center gap-2">
-                  <PythonAdventureBook size={62} title="Sam · Part 2" spine="var(--character-sam)" />
+                  <PythonAdventureBook size={62} title="Dev · Part 2" spine="var(--character-dev)" />
                   <StickyNote tone="pink" rotate={3}>
-                    “Part 1 is with Alex.”
+                    “Part 1 is with Priya.”
                   </StickyNote>
                 </div>
               </div>
@@ -637,21 +637,21 @@ function Questions() {
         />
         <QuizCard
           index={5}
-          question="Whose job is it to catch the Alex-and-Sam situation, which the librarian's usual rule misses?"
+          question="Whose job is it to catch the Priya-and-Dev situation, which the librarian's usual rule misses?"
           options={[
-            { text: "Riya and Kabir." },
+            { text: "Alex and Sam." },
             { text: "The head of the library." },
             { text: "Nobody — it stays forever." },
             { text: "The periodic inspector.", correct: true },
           ]}
-          reason="The librarian only checks “is anyone holding this?” — a check that Alex and Sam's pair always passes, since they hold each other. The inspector catches pairs that only reference one another."
+          reason="The librarian only checks “is anyone holding this?” — a check that Priya and Dev's pair always passes, since they hold each other. The inspector catches pairs that only reference one another."
           visual={
             <div className="flex flex-col items-center gap-4">
               <Character name="inspector" size={110} />
               <div className="flex items-center gap-4">
-                <ObjectBox title="Alex" items={["Part 1"]} />
+                <ObjectBox title="Priya" items={["Part 1"]} />
                 <CycleArrows size={140} />
-                <ObjectBox title="Sam" items={["Part 2"]} />
+                <ObjectBox title="Dev" items={["Part 2"]} />
               </div>
               <span className="rounded-full border-2 border-[var(--danger)] px-5 py-2 font-display text-lg font-semibold text-[var(--danger)]">
                 Cycle Found
@@ -727,13 +727,13 @@ function Q2Python() {
     <SceneShell eyebrow="Question 2 → Python" title="Python counts references, not people">
       <Stage className="flex flex-col items-center gap-6">
         <div className={cn("flex items-center gap-4 transition-opacity", released && "opacity-40")}>
-          <Character name="riya" size={95} showLabel={false} />
-          <ReferenceArrow tone={released ? "muted" : "primary"} length={140} label="Riya → Object" />
+          <Character name="alex" size={95} showLabel={false} />
+          <ReferenceArrow tone={released ? "muted" : "primary"} length={140} label="Alex → Object" />
           <span className="label-chip">Object</span>
         </div>
         <div className="flex items-center gap-4">
-          <Character name="kabir" size={95} showLabel={false} />
-          <ReferenceArrow length={140} label="Kabir → Object" />
+          <Character name="sam" size={95} showLabel={false} />
+          <ReferenceArrow length={140} label="Sam → Object" />
           <span className="label-chip">Object</span>
         </div>
         <RefCounter value={released ? 1 : 2} />
@@ -742,7 +742,7 @@ function Q2Python() {
           onClick={() => setReleased((r) => !r)}
           className="rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground"
         >
-          {released ? "Give Riya the reference back" : "Riya releases her reference"}
+          {released ? "Give Alex the reference back" : "Alex releases her reference"}
         </button>
         <p className="max-w-xl text-center text-sm text-muted-foreground">
           The object remains: Python cares about how many references point at it, not who they belong to.
@@ -807,25 +807,25 @@ function Q3Python() {
   );
 }
 
-/* ---------- 17. Alex & Sam twist ---------- */
+/* ---------- 17. Priya & Dev twist ---------- */
 
-function AlexSam() {
+function PriyaDev() {
   const [outside, setOutside] = useState(true);
   return (
     <SceneShell eyebrow="The twist" title="But there’s a problem…">
       <Stage>
         <div className="flex flex-wrap items-center justify-center gap-8">
           <div className="flex flex-col items-center gap-3">
-            <Character name="alex" size={110} />
-            <PythonAdventureBook size={62} title="Part 1" spine="var(--character-alex)" />
-            <StickyNote>“Part 2 is with Sam.”</StickyNote>
+            <Character name="priya" size={110} />
+            <PythonAdventureBook size={62} title="Part 1" spine="var(--character-priya)" />
+            <StickyNote>“Part 2 is with Dev.”</StickyNote>
           </div>
           <CycleArrows size={200} />
           <div className="flex flex-col items-center gap-3">
-            <Character name="sam" size={110} facing="left" />
-            <PythonAdventureBook size={62} title="Part 2" spine="var(--character-sam)" />
+            <Character name="dev" size={110} facing="left" />
+            <PythonAdventureBook size={62} title="Part 2" spine="var(--character-dev)" />
             <StickyNote tone="pink" rotate={3}>
-              “Part 1 is with Alex.”
+              “Part 1 is with Priya.”
             </StickyNote>
           </div>
         </div>
@@ -839,14 +839,14 @@ function AlexSam() {
             {outside ? "Remove every outside reference" : "Bring outside readers back"}
           </button>
           <div className={cn("flex flex-wrap items-center justify-center gap-4 transition-opacity", !outside && "opacity-25")}>
-            <Character name="riya" size={80} showLabel={false} />
+            <Character name="alex" size={80} showLabel={false} />
             <ReferenceArrow tone={outside ? "primary" : "muted"} length={90} label="outside reader" />
             <span className="label-chip">Part 1 / Part 2</span>
           </div>
           <RefCounter value={outside ? 1 : 0} label="Outside References" />
           {!outside && (
             <p className="scene-enter max-w-xl text-center narration">
-              Nobody else needs Alex. Nobody else needs Sam. Yet the two notes still point at each other — so
+              Nobody else needs Priya. Nobody else needs Dev. Yet the two notes still point at each other — so
               neither part ever looks free.
             </p>
           )}
@@ -863,9 +863,9 @@ function CyclicReference() {
     <SceneShell eyebrow="Python concept" title="Cyclic Reference">
       <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-center">
         <Stage className="flex flex-col items-center gap-4">
-          <ObjectBox title="Alex Object" items={["Part 1", "→ Sam"]} />
+          <ObjectBox title="Priya Object" items={["Part 1", "→ Dev"]} />
           <CycleArrows size={190} />
-          <ObjectBox title="Sam Object" items={["Part 2", "→ Alex"]} />
+          <ObjectBox title="Dev Object" items={["Part 2", "→ Priya"]} />
         </Stage>
         <div className="grid gap-4">
           <Narration>Two objects point to each other, creating a cycle.</Narration>
@@ -897,9 +897,9 @@ function Inspector() {
         <div className="relative flex flex-wrap items-center justify-center gap-8">
           <Character name="inspector" size={130} />
           <div className={cn("flex items-center gap-4", stage >= 3 && "opacity-25")}>
-            <ObjectBox title="Alex" items={["Part 1"]} dimmed={stage >= 3} />
+            <ObjectBox title="Priya" items={["Part 1"]} dimmed={stage >= 3} />
             <CycleArrows size={150} />
-            <ObjectBox title="Sam" items={["Part 2"]} dimmed={stage >= 3} />
+            <ObjectBox title="Dev" items={["Part 2"]} dimmed={stage >= 3} />
           </div>
         </div>
 
@@ -1068,7 +1068,7 @@ function CodeChallenge1() {
 
 function CodeChallenge2() {
   const [step, setStep] = useState(0);
-  const lines = ["alex = [1]", "sam = [2]", "", "alex.append(sam)", "sam.append(alex)", "", "alex = None", "sam = None"];
+  const lines = ["priya = [1]", "dev = [2]", "", "priya.append(dev)", "dev.append(priya)", "", "priya = None", "dev = None"];
   const [picked, setPicked] = useState<number | null>(null);
   const options = ["Free to be cleared right away", "It needs the periodic inspector"];
   const outsideGone = step >= 6;
@@ -1125,18 +1125,18 @@ function CodeChallenge2() {
 
         <Stage className="flex flex-col items-center justify-center gap-5">
           <div className={cn("flex items-center gap-6 transition-opacity", outsideGone && "opacity-20")}>
-            <span className="label-chip">alex</span>
-            <span className="label-chip">sam</span>
+            <span className="label-chip">priya</span>
+            <span className="label-chip">dev</span>
           </div>
           <div className="flex items-center gap-4">
-            <ObjectBox title="Alex Box" items={step >= 3 ? ["1", "→ Sam"] : ["1"]} />
+            <ObjectBox title="Priya Box" items={step >= 3 ? ["1", "→ Dev"] : ["1"]} />
             {step >= 4 ? <CycleArrows size={150} /> : step >= 3 ? <ReferenceArrow length={110} /> : <span className="w-10" />}
-            <ObjectBox title="Sam Box" items={step >= 4 ? ["2", "→ Alex"] : ["2"]} />
+            <ObjectBox title="Dev Box" items={step >= 4 ? ["2", "→ Priya"] : ["2"]} />
           </div>
           <RefCounter value={outsideGone ? 0 : 2} label="Outside References" />
           {outsideGone && (
             <p className="scene-enter text-center text-sm font-semibold text-[var(--danger)]">
-              Outside references = 0, but Alex ↔ Sam remains.
+              Outside references = 0, but Priya ↔ Dev remains.
             </p>
           )}
         </Stage>
@@ -1154,18 +1154,18 @@ function FinalSummary() {
         <LibraryBackdrop className="opacity-15" />
         <div className="relative flex flex-wrap items-end justify-center gap-6">
           <Bookshelf width={130} highlightSlot />
-          <Character name="riya" size={95} />
-          <Character name="kabir" size={95} />
+          <Character name="alex" size={95} />
+          <Character name="sam" size={95} />
           <Character name="librarian" size={95} />
           <Character name="inspector" size={95} />
           <Bookshelf width={130} />
         </div>
         <div className="relative mt-8 grid gap-3 sm:grid-cols-2">
           <MappingRow story="The Book" python="Object" />
-          <MappingRow story="Riya / Kabir" python="References" />
+          <MappingRow story="Alex / Sam" python="References" />
           <MappingRow story="Number of Readers" python="Reference Count" />
           <MappingRow story="Zero Readers" python="Object can be reclaimed" />
-          <MappingRow story="Alex ↔ Sam" python="Cyclic Reference" />
+          <MappingRow story="Priya ↔ Dev" python="Cyclic Reference" />
           <MappingRow story="Inspector" python="Cyclic Garbage Collector" />
         </div>
         <p className="relative mx-auto mt-8 max-w-2xl text-center narration">
@@ -1190,9 +1190,9 @@ export const chapters: {
   { id: "book", nav: "The One Book", render: () => <OneBook /> },
   { id: "table", nav: "Reading Table", render: () => <TheReadingTable /> },
   { id: "rule", nav: "Library Rule", render: () => <LibrarianRule /> },
-  { id: "day1", nav: "Day 1 — Riya", render: () => <Day1 /> },
+  { id: "day1", nav: "Day 1 — Alex", render: () => <Day1 /> },
   { id: "day1-meaning", nav: "What It Means", render: () => <Day1Meaning /> },
-  { id: "day2", nav: "Day 2 — Kabir", render: () => <Day2 /> },
+  { id: "day2", nav: "Day 2 — Sam", render: () => <Day2 /> },
   { id: "day3", nav: "Day 3 — Return", render: () => <Day3 /> },
   { id: "summary", nav: "Story Summary", render: () => <StateSummary /> },
   { id: "quiz-intro", nav: "You Already Know", render: () => <QuizIntro /> },
@@ -1201,7 +1201,7 @@ export const chapters: {
   { id: "q1-python", nav: "Q1 → Python", render: () => <Q1Python /> },
   { id: "q2-python", nav: "Q2 → Python", render: () => <Q2Python /> },
   { id: "q3-python", nav: "Reference Counting", render: () => <Q3Python /> },
-  { id: "twist", nav: "Alex & Sam", render: () => <AlexSam /> },
+  { id: "twist", nav: "Priya & Dev", render: () => <PriyaDev /> },
   { id: "cycle", nav: "Cyclic Reference", render: () => <CyclicReference /> },
   { id: "inspector", nav: "The Inspector", render: () => <Inspector /> },
   { id: "model", nav: "Final Model", render: () => <FinalModel /> },
