@@ -809,7 +809,7 @@ function Q3Python() {
 
 /* ---------- 17. Priya & Dev twist ---------- */
 
-function AlexSam() {
+function PriyaDev() {
   const [outside, setOutside] = useState(true);
   return (
     <SceneShell eyebrow="The twist" title="But there’s a problem…">
@@ -1201,7 +1201,7 @@ export const chapters: {
   { id: "q1-python", nav: "Q1 → Python", render: () => <Q1Python /> },
   { id: "q2-python", nav: "Q2 → Python", render: () => <Q2Python /> },
   { id: "q3-python", nav: "Reference Counting", render: () => <Q3Python /> },
-  { id: "twist", nav: "Priya & Dev", render: () => <AlexSam /> },
+  { id: "twist", nav: "Priya & Dev", render: () => <PriyaDev /> },
   { id: "cycle", nav: "Cyclic Reference", render: () => <CyclicReference /> },
   { id: "inspector", nav: "The Inspector", render: () => <Inspector /> },
   { id: "model", nav: "Final Model", render: () => <FinalModel /> },
