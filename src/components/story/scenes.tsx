@@ -935,7 +935,7 @@ function Inspector() {
           {stage === 1 && <p className="scene-enter narration">The inspector walks the library every so often — not constantly.</p>}
           {stage === 2 && (
             <p className="scene-enter font-display text-3xl font-semibold text-[var(--danger)]">
-              CYCLE DETECTED · NO OUTSIDE REFERENCES
+              CYCLE FOUND · NO READERS ANYWHERE IN THE CHAIN
             </p>
           )}
           {stage === 3 && (
@@ -944,10 +944,6 @@ function Inspector() {
             </p>
           )}
         </div>
-
-        <p className="relative mt-4 text-center text-sm text-muted-foreground">
-          This is Python’s <code className="font-mono">gc</code> — the cyclic garbage collector.
-        </p>
       </Stage>
     </SceneShell>
   );
