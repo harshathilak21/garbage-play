@@ -86,18 +86,18 @@
   --skin-light: oklch(0.87 0.045 70);
   --skin-deep: oklch(0.62 0.06 52);
   --hair-grey: oklch(0.7 0.012 80);
-  --character-riya: oklch(0.62 0.14 20);
-  --character-riya-dark: oklch(0.48 0.12 22);
-  --character-kabir: oklch(0.55 0.1 234);
-  --character-kabir-dark: oklch(0.42 0.09 236);
+  --character-alex: oklch(0.62 0.14 20);
+  --character-alex-dark: oklch(0.48 0.12 22);
+  --character-sam: oklch(0.55 0.1 234);
+  --character-sam-dark: oklch(0.42 0.09 236);
   --character-librarian: oklch(0.5 0.09 168);
   --character-librarian-dark: oklch(0.38 0.075 170);
   --character-inspector: oklch(0.47 0.09 300);
   --character-inspector-dark: oklch(0.36 0.08 300);
-  --character-alex: oklch(0.62 0.13 62);
-  --character-alex-dark: oklch(0.48 0.11 60);
-  --character-sam: oklch(0.55 0.11 320);
-  --character-sam-dark: oklch(0.42 0.1 320);
+  --character-priya: oklch(0.62 0.13 62);
+  --character-priya-dark: oklch(0.48 0.11 60);
+  --character-dev: oklch(0.55 0.11 320);
+  --character-dev-dark: oklch(0.42 0.1 320);
 
   --shadow-card: 0 18px 40px -24px oklch(0.32 0.06 50 / 0.5);
   --shadow-lift: 0 26px 60px -30px oklch(0.32 0.06 50 / 0.6);
