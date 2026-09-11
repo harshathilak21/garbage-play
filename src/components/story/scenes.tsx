@@ -493,6 +493,12 @@ function StateSummary() {
           </div>
         </Stage>
       </div>
+      <div className="mt-6">
+        <Narration>
+          This rule has worked perfectly so far. But there’s one more kind of book in this library where it
+          gets tested.
+        </Narration>
+      </div>
     </SceneShell>
   );
 }
