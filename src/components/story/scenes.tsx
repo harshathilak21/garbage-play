@@ -940,7 +940,7 @@ function Inspector() {
           )}
           {stage === 3 && (
             <p className="scene-enter font-display text-2xl font-semibold text-[var(--accent-strong)]">
-              Both objects cleared together
+              Both parts cleared to the shelf together
             </p>
           )}
         </div>
