@@ -683,11 +683,12 @@ function PythonReveal() {
         <LibraryBackdrop className="opacity-10" />
         <div className="relative grid gap-3 sm:grid-cols-2">
           <MappingRow story="The Python Adventure" python="Object" />
-          <MappingRow story="Reader" python="Reference" />
+          <MappingRow story="Reader (Alex / Sam)" python="Reference" />
           <MappingRow story="Number of readers" python="Reference count" />
           <MappingRow story="Reading Table" python="Object still in use" />
           <MappingRow story="Shelf" python="Memory reclaimed" />
           <MappingRow story="Librarian’s check" python="Reference counting" />
+          <MappingRow story="Part 1 / Part 2’s printed lines (Priya / Dev)" python="Cyclic reference" />
           <MappingRow story="Inspector" python="Cyclic garbage collector" />
         </div>
       </Stage>
