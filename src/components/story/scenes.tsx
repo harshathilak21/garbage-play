@@ -867,19 +867,25 @@ function PriyaDev() {
   );
 }
 
-/* ---------- 18. Cyclic reference concept ---------- */
+/* ---------- 18. Q4 → Python: cyclic reference ---------- */
 
-function CyclicReference() {
+function Q4Python() {
   return (
-    <SceneShell eyebrow="Python concept" title="Cyclic Reference">
+    <SceneShell eyebrow="Question 4 → Python" title="Cyclic Reference">
       <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-center">
         <Stage className="flex flex-col items-center gap-4">
-          <ObjectBox title="Priya Object" items={["Part 1", "→ Dev"]} />
+          <ObjectBox title="Part 1 Object" items={["Part 1", "→ Part 2"]} />
           <CycleArrows size={190} />
-          <ObjectBox title="Dev Object" items={["Part 2", "→ Priya"]} />
+          <ObjectBox title="Part 2 Object" items={["Part 2", "→ Part 1"]} />
         </Stage>
         <div className="grid gap-4">
-          <Narration>Two objects point to each other, creating a cycle.</Narration>
+          <Narration>
+            Story answer: the printed continuation lines still point Part 1 at Part 2, and Part 2 back at
+            Part 1.
+          </Narration>
+          <p className="text-sm text-muted-foreground">
+            In Python, two objects that reference each other form a <strong>cyclic reference</strong>.
+          </p>
           <div className="grid gap-3">
             <RefCounter value={0} label="External References" />
             <div className="ref-counter">
@@ -888,10 +894,39 @@ function CyclicReference() {
             </div>
           </div>
           <p className="text-sm text-muted-foreground">
-            Simple reference counting alone can never reclaim this pair: each object keeps the other’s count
-            above zero.
+            Reference counting alone can never reclaim this pair: each object keeps the other’s count above
+            zero.
           </p>
         </div>
+      </div>
+    </SceneShell>
+  );
+}
+
+/* ---------- 18b. Q5 → Python: cyclic garbage collector ---------- */
+
+function Q5Python() {
+  return (
+    <SceneShell eyebrow="Question 5 → Python" title="Python’s Cyclic Garbage Collector">
+      <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+        <div className="grid gap-4">
+          <Narration>Story answer: the periodic inspector.</Narration>
+          <p className="text-sm text-muted-foreground">
+            In Python that inspector is the <strong>cyclic garbage collector</strong>. It runs periodically —
+            not constantly — finds groups of objects that only reference each other, and reclaims them.
+          </p>
+        </div>
+        <Stage className="flex flex-col items-center gap-4">
+          <Character name="inspector" size={120} />
+          <div className="flex items-center gap-4">
+            <ObjectBox title="Part 1" items={["→ Part 2"]} />
+            <CycleArrows size={150} />
+            <ObjectBox title="Part 2" items={["→ Part 1"]} />
+          </div>
+          <span className="font-display text-xl font-semibold text-[var(--danger)]">
+            Unreachable cycle · reclaimed together
+          </span>
+        </Stage>
       </div>
     </SceneShell>
   );
