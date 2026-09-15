@@ -683,11 +683,12 @@ function PythonReveal() {
         <LibraryBackdrop className="opacity-10" />
         <div className="relative grid gap-3 sm:grid-cols-2">
           <MappingRow story="The Python Adventure" python="Object" />
-          <MappingRow story="Reader" python="Reference" />
+          <MappingRow story="Reader (Alex / Sam)" python="Reference" />
           <MappingRow story="Number of readers" python="Reference count" />
           <MappingRow story="Reading Table" python="Object still in use" />
           <MappingRow story="Shelf" python="Memory reclaimed" />
           <MappingRow story="Librarian’s check" python="Reference counting" />
+          <MappingRow story="Part 1 / Part 2’s printed lines (Priya / Dev)" python="Cyclic reference" />
           <MappingRow story="Inspector" python="Cyclic garbage collector" />
         </div>
       </Stage>
@@ -866,19 +867,25 @@ function PriyaDev() {
   );
 }
 
-/* ---------- 18. Cyclic reference concept ---------- */
+/* ---------- 18. Q4 → Python: cyclic reference ---------- */
 
-function CyclicReference() {
+function Q4Python() {
   return (
-    <SceneShell eyebrow="Python concept" title="Cyclic Reference">
+    <SceneShell eyebrow="Question 4 → Python" title="Cyclic Reference">
       <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-center">
         <Stage className="flex flex-col items-center gap-4">
-          <ObjectBox title="Priya Object" items={["Part 1", "→ Dev"]} />
+          <ObjectBox title="Part 1 Object" items={["Part 1", "→ Part 2"]} />
           <CycleArrows size={190} />
-          <ObjectBox title="Dev Object" items={["Part 2", "→ Priya"]} />
+          <ObjectBox title="Part 2 Object" items={["Part 2", "→ Part 1"]} />
         </Stage>
         <div className="grid gap-4">
-          <Narration>Two objects point to each other, creating a cycle.</Narration>
+          <Narration>
+            Story answer: the printed continuation lines still point Part 1 at Part 2, and Part 2 back at
+            Part 1.
+          </Narration>
+          <p className="text-sm text-muted-foreground">
+            In Python, two objects that reference each other form a <strong>cyclic reference</strong>.
+          </p>
           <div className="grid gap-3">
             <RefCounter value={0} label="External References" />
             <div className="ref-counter">
@@ -887,10 +894,39 @@ function CyclicReference() {
             </div>
           </div>
           <p className="text-sm text-muted-foreground">
-            Simple reference counting alone can never reclaim this pair: each object keeps the other’s count
-            above zero.
+            Reference counting alone can never reclaim this pair: each object keeps the other’s count above
+            zero.
           </p>
         </div>
+      </div>
+    </SceneShell>
+  );
+}
+
+/* ---------- 18b. Q5 → Python: cyclic garbage collector ---------- */
+
+function Q5Python() {
+  return (
+    <SceneShell eyebrow="Question 5 → Python" title="Python’s Cyclic Garbage Collector">
+      <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+        <div className="grid gap-4">
+          <Narration>Story answer: the periodic inspector.</Narration>
+          <p className="text-sm text-muted-foreground">
+            In Python that inspector is the <strong>cyclic garbage collector</strong>. It runs periodically —
+            not constantly — finds groups of objects that only reference each other, and reclaims them.
+          </p>
+        </div>
+        <Stage className="flex flex-col items-center gap-4">
+          <Character name="inspector" size={120} />
+          <div className="flex items-center gap-4">
+            <ObjectBox title="Part 1" items={["→ Part 2"]} />
+            <CycleArrows size={150} />
+            <ObjectBox title="Part 2" items={["→ Part 1"]} />
+          </div>
+          <span className="font-display text-xl font-semibold text-[var(--danger)]">
+            Unreachable cycle · reclaimed together
+          </span>
+        </Stage>
       </div>
     </SceneShell>
   );
@@ -1074,7 +1110,7 @@ function CodeChallenge1() {
 
 function CodeChallenge2() {
   const [step, setStep] = useState(0);
-  const lines = ["priya = [1]", "dev = [2]", "", "priya.append(dev)", "dev.append(priya)", "", "priya = None", "dev = None"];
+  const lines = ["part1 = [1]", "part2 = [2]", "", "part1.append(part2)", "part2.append(part1)", "", "part1 = None", "part2 = None"];
   const [picked, setPicked] = useState<number | null>(null);
   const options = ["Free to be cleared right away", "It needs the periodic inspector"];
   const outsideGone = step >= 6;
@@ -1131,18 +1167,18 @@ function CodeChallenge2() {
 
         <Stage className="flex flex-col items-center justify-center gap-5">
           <div className={cn("flex items-center gap-6 transition-opacity", outsideGone && "opacity-20")}>
-            <span className="label-chip">priya</span>
-            <span className="label-chip">dev</span>
+            <span className="label-chip">part1</span>
+            <span className="label-chip">part2</span>
           </div>
           <div className="flex items-center gap-4">
-            <ObjectBox title="Priya Box" items={step >= 3 ? ["1", "→ Dev"] : ["1"]} />
+            <ObjectBox title="part1 Box" items={step >= 3 ? ["1", "→ part2"] : ["1"]} />
             {step >= 4 ? <CycleArrows size={150} /> : step >= 3 ? <ReferenceArrow length={110} /> : <span className="w-10" />}
-            <ObjectBox title="Dev Box" items={step >= 4 ? ["2", "→ Priya"] : ["2"]} />
+            <ObjectBox title="part2 Box" items={step >= 4 ? ["2", "→ part1"] : ["2"]} />
           </div>
           <RefCounter value={outsideGone ? 0 : 2} label="Outside References" />
           {outsideGone && (
             <p className="scene-enter text-center text-sm font-semibold text-[var(--danger)]">
-              Outside references = 0, but Priya ↔ Dev remains.
+              Outside references = 0, but part1 ↔ part2 remains.
             </p>
           )}
         </Stage>
@@ -1209,7 +1245,8 @@ export const chapters: {
   { id: "q1-python", nav: "Q1 → Python", render: () => <Q1Python /> },
   { id: "q2-python", nav: "Q2 → Python", render: () => <Q2Python /> },
   { id: "q3-python", nav: "Reference Counting", render: () => <Q3Python /> },
-  { id: "cycle", nav: "Cyclic Reference", render: () => <CyclicReference /> },
+  { id: "q4-python", nav: "Q4 → Cyclic Reference", render: () => <Q4Python /> },
+  { id: "q5-python", nav: "Q5 → Cyclic GC", render: () => <Q5Python /> },
   { id: "model", nav: "Final Model", render: () => <FinalModel /> },
   { id: "code1", nav: "Code Challenge 1", render: () => <CodeChallenge1 /> },
   { id: "code2", nav: "Code Challenge 2", render: () => <CodeChallenge2 /> },
