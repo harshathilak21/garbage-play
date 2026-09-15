@@ -1207,7 +1207,7 @@ function FinalSummary() {
           <MappingRow story="Alex / Sam" python="References" />
           <MappingRow story="Number of Readers" python="Reference Count" />
           <MappingRow story="Zero Readers" python="Object can be reclaimed" />
-          <MappingRow story="Priya ↔ Dev" python="Cyclic Reference" />
+          <MappingRow story="Part 1 ↔ Part 2 (Priya & Dev)" python="Cyclic Reference" />
           <MappingRow story="Inspector" python="Cyclic Garbage Collector" />
         </div>
         <p className="relative mx-auto mt-8 max-w-2xl text-center narration">
