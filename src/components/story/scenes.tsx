@@ -1110,7 +1110,7 @@ function CodeChallenge1() {
 
 function CodeChallenge2() {
   const [step, setStep] = useState(0);
-  const lines = ["priya = [1]", "dev = [2]", "", "priya.append(dev)", "dev.append(priya)", "", "priya = None", "dev = None"];
+  const lines = ["part1 = [1]", "part2 = [2]", "", "part1.append(part2)", "part2.append(part1)", "", "part1 = None", "part2 = None"];
   const [picked, setPicked] = useState<number | null>(null);
   const options = ["Free to be cleared right away", "It needs the periodic inspector"];
   const outsideGone = step >= 6;
@@ -1167,18 +1167,18 @@ function CodeChallenge2() {
 
         <Stage className="flex flex-col items-center justify-center gap-5">
           <div className={cn("flex items-center gap-6 transition-opacity", outsideGone && "opacity-20")}>
-            <span className="label-chip">priya</span>
-            <span className="label-chip">dev</span>
+            <span className="label-chip">part1</span>
+            <span className="label-chip">part2</span>
           </div>
           <div className="flex items-center gap-4">
-            <ObjectBox title="Priya Box" items={step >= 3 ? ["1", "→ Dev"] : ["1"]} />
+            <ObjectBox title="part1 Box" items={step >= 3 ? ["1", "→ part2"] : ["1"]} />
             {step >= 4 ? <CycleArrows size={150} /> : step >= 3 ? <ReferenceArrow length={110} /> : <span className="w-10" />}
-            <ObjectBox title="Dev Box" items={step >= 4 ? ["2", "→ Priya"] : ["2"]} />
+            <ObjectBox title="part2 Box" items={step >= 4 ? ["2", "→ part1"] : ["2"]} />
           </div>
           <RefCounter value={outsideGone ? 0 : 2} label="Outside References" />
           {outsideGone && (
             <p className="scene-enter text-center text-sm font-semibold text-[var(--danger)]">
-              Outside references = 0, but Priya ↔ Dev remains.
+              Outside references = 0, but part1 ↔ part2 remains.
             </p>
           )}
         </Stage>
