@@ -93,14 +93,16 @@ function Index() {
           <span className="hidden text-xs font-semibold uppercase tracking-widest text-muted-foreground sm:block">
             Story → Think → Answer → Reveal → Code
           </span>
-          <button
-            type="button"
-            onClick={() => setStep((s) => Math.min(chapters.length - 1, s + 1))}
-            disabled={step === chapters.length - 1}
-            className="rounded-full bg-primary px-6 py-2 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5 disabled:opacity-40"
-          >
-            Next →
-          </button>
+          {step > 0 && (
+            <button
+              type="button"
+              onClick={() => setStep((s) => Math.min(chapters.length - 1, s + 1))}
+              disabled={step === chapters.length - 1}
+              className="rounded-full bg-primary px-6 py-2 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5 disabled:opacity-40"
+            >
+              Next →
+            </button>
+          )}
         </div>
       </div>
     </div>
