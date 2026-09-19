@@ -6,13 +6,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Garbage Collection: The One Library Book | PyBay" },
+      { title: "Garbage Collection: The One Library Book" },
       {
         name: "description",
         content:
           "An illustrated, interactive story that teaches Python garbage collection — reference counting and reference cycles — through the Everwell Library.",
       },
-      { property: "og:title", content: "Garbage Collection: The One Library Book | PyBay" },
+      { property: "og:title", content: "Garbage Collection: The One Library Book" },
       {
         property: "og:description",
         content:
@@ -39,7 +39,6 @@ function Index() {
       <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
           <span className="font-display text-lg font-semibold">
-            PyBay <span className="text-muted-foreground">·</span>{" "}
             <span className="text-[var(--accent-strong)]">Garbage Collection</span>
           </span>
           <span className="ml-auto text-xs font-semibold uppercase tracking-widest text-muted-foreground">
