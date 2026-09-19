@@ -82,7 +82,7 @@ function Intro({ onNext }: { onNext?: () => void }) {
       <Stage className="text-center">
         <LibraryBackdrop />
         <div className="relative">
-          <span className="label-chip">PyBay · Python Learning Platform</span>
+          <span className="label-chip">Python Learning Platform</span>
           <h1 className="mt-5 text-4xl font-semibold sm:text-5xl">
             Would you like to explore Garbage Collection?
           </h1>
