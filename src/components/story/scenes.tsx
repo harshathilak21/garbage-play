@@ -819,75 +819,182 @@ function Q3Python() {
 
 /* ---------- 17. Priya & Dev twist ---------- */
 
-function PrintedContinuation({ part }: { part: 1 | 2 }) {
+function StepPills({
+  steps,
+  stage,
+  setStage,
+}: {
+  steps: string[];
+  stage: number;
+  setStage: (n: number) => void;
+}) {
   return (
-    <div className="w-full max-w-xs border border-border bg-[var(--book-page)] p-5 shadow-sm">
+    <div className="relative mb-7 flex flex-wrap justify-center gap-2">
+      {steps.map((label, index) => (
+        <button
+          key={label}
+          type="button"
+          onClick={() => setStage(index)}
+          className={cn(
+            "rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider",
+            stage === index
+              ? "border-[var(--accent-strong)] bg-accent text-accent-foreground"
+              : "border-border text-muted-foreground",
+          )}
+        >
+          {index + 1}. {label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ContinueButton({ onClick, label = "Continue →" }: { onClick: () => void; label?: string }) {
+  return (
+    <div className="mt-6 flex justify-center">
+      <button
+        type="button"
+        onClick={onClick}
+        className="rounded-full border-2 border-[var(--accent-strong)] px-5 py-2 text-sm font-semibold text-[var(--accent-strong)] hover:bg-accent"
+      >
+        {label}
+      </button>
+    </div>
+  );
+}
+
+function VolumeNote({ part, highlight = false }: { part: 1 | 2; highlight?: boolean }) {
+  return (
+    <div
+      className={cn(
+        "w-full max-w-xs border border-border bg-[var(--book-page)] p-5 shadow-sm transition-transform duration-500",
+        highlight && "scale-110 ring-4 ring-[var(--sun)]",
+      )}
+    >
       <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-        {part === 1 ? "Last page of Part 1" : "First page of Part 2"}
+        {part === 1 ? "Part 1 — Last Page" : "Part 2 — First Page"}
       </span>
-      <div className="my-5 space-y-2 opacity-35" aria-hidden="true">
+      <div className="my-4 space-y-2 opacity-35" aria-hidden="true">
         <div className="h-1.5 w-full bg-muted-foreground" />
         <div className="h-1.5 w-5/6 bg-muted-foreground" />
-        <div className="h-1.5 w-11/12 bg-muted-foreground" />
       </div>
       <p className="border-t border-border pt-4 text-center font-display text-lg font-semibold">
-        {part === 1 ? "Continued in Part 2." : "Continued from Part 1."}
+        {part === 1 ? (
+          <>
+            “To finish this story,{" "}
+            <mark className={cn("px-1", highlight ? "bg-[var(--sun)] text-foreground" : "bg-transparent text-inherit")}>
+              you need Part 2
+            </mark>
+            .”
+          </>
+        ) : (
+          "“To understand this story, you need to know what happened in Part 1.”"
+        )}
       </p>
-      <span className="mt-3 block text-center text-xs text-muted-foreground">Printed permanently in the book</span>
+    </div>
+  );
+}
+
+function NeededBy({ book, by }: { book: string; by: string }) {
+  return (
+    <div className="scene-card px-5 py-3 text-center">
+      <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">{book} is needed by</span>
+      <p className="font-display text-lg font-semibold text-[var(--accent-strong)]">{by}</p>
+    </div>
+  );
+}
+
+function PriyaReading({ onDone }: { onDone: () => void }) {
+  const total = 6;
+  const [page, setPage] = useState(1);
+  const [phase, setPhase] = useState<"reading" | "note" | "leaving" | "gone">("reading");
+  useEffect(() => {
+    if (phase === "reading") {
+      if (page < total) {
+        const t = setTimeout(() => setPage((p) => p + 1), 650);
+        return () => clearTimeout(t);
+      }
+      const t = setTimeout(() => setPhase("note"), 500);
+      return () => clearTimeout(t);
+    }
+  }, [page, phase]);
+
+  return (
+    <div className="scene-enter grid gap-6 text-center">
+      <Narration>Priya reads Part 1, turning the pages one by one…</Narration>
+      <div className="flex flex-wrap items-center justify-center gap-8">
+        {phase !== "gone" ? (
+          <div className={cn(phase === "leaving" && "opacity-30 transition-opacity duration-700")}>
+            <Character name="priya" size={100} seated={phase !== "leaving"} holdingBook={phase === "reading"} />
+          </div>
+        ) : (
+          <div className="grid justify-items-center gap-1">
+            <div className="h-24 w-20 rounded-xl border-2 border-dashed border-border" />
+            <span className="label-chip label-chip--muted">Priya's chair — empty</span>
+          </div>
+        )}
+        {phase === "reading" ? (
+          <div className="grid justify-items-center gap-2">
+            <PythonAdventureBook size={70} title="Part 1" spine="var(--character-priya)" />
+            <span className="label-chip">
+              Page {page} / {total}
+            </span>
+          </div>
+        ) : (
+          <VolumeNote part={1} highlight={phase === "note"} />
+        )}
+      </div>
+      {phase === "note" && (
+        <div className="scene-enter grid gap-2">
+          <SpeechBubble speaker="Priya">Oh — to complete this story, I need Part 2!</SpeechBubble>
+          <ContinueButton label="Priya closes Part 1 →" onClick={() => {
+            setPhase("leaving");
+            setTimeout(() => setPhase("gone"), 900);
+          }} />
+        </div>
+      )}
+      {phase === "gone" && (
+        <div className="scene-enter">
+          <p className="narration">Priya closes Part 1 and leaves the library.</p>
+          <ContinueButton onClick={onDone} />
+        </div>
+      )}
     </div>
   );
 }
 
 function PriyaDev() {
   const [stage, setStage] = useState(0);
-  const steps = ["Two-part books", "Priya & Dev", "Priya finishes", "Dev finishes"];
+  const [answered, setAnswered] = useState(false);
+  const steps = ["Two volumes", "Priya & Dev", "Priya finishes", "Can it go back?", "Dev finishes", "The librarian's rule"];
+  const go = (n: number) => {
+    setAnswered(false);
+    setStage(n);
+  };
 
   return (
-    <SceneShell eyebrow="The twist" title={stage === 0 ? "A real printing practice" : "But there’s a problem…"}>
+    <SceneShell eyebrow="The twist" title="But there’s a problem…">
       <Stage>
-        <div className="mb-7 flex flex-wrap justify-center gap-2">
-          {steps.map((label, index) => (
-            <button
-              key={label}
-              type="button"
-              onClick={() => setStage(index)}
-              className={cn(
-                "rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider",
-                stage === index
-                  ? "border-[var(--accent-strong)] bg-accent text-accent-foreground"
-                  : "border-border text-muted-foreground",
-              )}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+        <StepPills steps={steps} stage={stage} setStage={go} />
 
         {stage === 0 && (
-          <div className="scene-enter grid gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <div className="grid gap-4">
-              <Narration>
-                A long time ago, some books were too big to print as one single book. So they were split into
-                two parts and sold separately — Part 1 and Part 2.
-              </Narration>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Printers added one small line to each part so readers knew they were connected. The reader did
-                not write it; it was permanently printed as part of the book itself.
-              </p>
+          <div className="scene-enter grid gap-6 text-center">
+            <Narration>In Everwell Library, some storybooks come in two volumes: Part 1 and Part 2.</Narration>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <VolumeNote part={1} />
+              <div className="grid gap-2">
+                <ReferenceArrow label="Part 1 needs Part 2" length={130} />
+                <ReferenceArrow label="Part 2 needs Part 1" direction="left" length={130} />
+              </div>
+              <VolumeNote part={2} />
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <PrintedContinuation part={1} />
-              <PrintedContinuation part={2} />
-            </div>
+            <p className="font-display text-xl font-semibold">So Part 1 needs Part 2, and Part 2 needs Part 1.</p>
+            <ContinueButton onClick={() => go(1)} />
           </div>
         )}
 
         {stage === 1 && (
           <div className="scene-enter grid gap-6 text-center">
-            <Narration>
-              In Everwell Library, Priya picks up Part 1 and Dev picks up Part 2. They sit at the same Reading
-              Table.
-            </Narration>
             <ReadingTable width={560}>
               <div className="flex items-end gap-2">
                 <Character name="priya" size={88} seated />
@@ -898,51 +1005,138 @@ function PriyaDev() {
                 <Character name="dev" size={88} seated facing="left" />
               </div>
             </ReadingTable>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <NeededBy book="Part 1" by="Priya and Part 2" />
+              <NeededBy book="Part 2" by="Dev and Part 1" />
+            </div>
+            <p className="narration">A book can need another book, just like a person can.</p>
+            <ContinueButton onClick={() => go(2)} />
           </div>
         )}
 
-        {stage === 2 && (
-          <div className="scene-enter grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-            <div className="grid justify-items-center gap-3">
-              <Character name="librarian" size={110} />
-              <RefCounter value={1} label="Part 1 reference count" />
-            </div>
-            <div className="grid gap-4">
-              <Narration>Priya is done. Is Part 1 free to shelve now?</Narration>
-              <div className="flex flex-wrap items-center justify-center gap-2">
-                <PythonAdventureBook size={58} title="Part 1" />
-                <ReferenceArrow label="Continued in Part 2" length={145} />
-                <PythonAdventureBook size={58} title="Part 2 · Dev reading" spine="var(--character-dev)" />
-              </div>
-              <p className="text-center font-display text-lg font-semibold">
-                Part 1 stays. Something still points to it — Part 2’s printed line.
-              </p>
-            </div>
-          </div>
-        )}
+        {stage === 2 && <PriyaReading onDone={() => go(3)} />}
 
         {stage === 3 && (
           <div className="scene-enter grid gap-5 text-center">
-            <Narration>Now nobody is reading either part. Let’s check again.</Narration>
-            <div className="flex flex-wrap items-center justify-center gap-5">
-              <div className="grid gap-2">
-                <PythonAdventureBook size={70} title="Part 1" />
-                <RefCounter value={1} label="Still pointed to" />
-              </div>
-              <CycleArrows size={210} />
-              <div className="grid gap-2">
-                <PythonAdventureBook size={70} title="Part 2" spine="var(--character-dev)" />
-                <RefCounter value={1} label="Still pointed to" />
-              </div>
-            </div>
-            <p className="mx-auto max-w-2xl narration">
-              Both readers are gone. But each part is still being pointed to — not by a person anymore, just by
-              the other part.
+            <p className="font-display text-2xl font-semibold">
+              Priya has finished reading Part 1. Can the librarian take Part 1 back to the shelf?
             </p>
+            {!answered ? (
+              <ContinueButton label="Think… then reveal the answer" onClick={() => setAnswered(true)} />
+            ) : (
+              <div className="scene-enter grid gap-5">
+                <p className="font-display text-2xl font-semibold text-[var(--danger)]">
+                  NO — Part 2 still needs Part 1, and Dev is still reading Part 2.
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <Character name="dev" size={80} seated />
+                  <ReferenceArrow label="reading" length={100} />
+                  <PythonAdventureBook size={56} title="Part 2" spine="var(--character-dev)" />
+                  <ReferenceArrow label="needs" length={100} />
+                  <PythonAdventureBook size={56} title="Part 1" spine="var(--character-priya)" glow />
+                </div>
+                <span className="label-chip mx-auto">Dev → Part 2 → Part 1</span>
+                <p className="narration">The librarian is right to keep it. A real person is still connected to it.</p>
+                <ContinueButton onClick={() => go(4)} />
+              </div>
+            )}
           </div>
         )}
+
+        {stage === 4 && (
+          <div className="scene-enter grid gap-5 text-center">
+            <Narration>Dev reads Part 2 to its final page, closes it, and leaves the library.</Narration>
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              <div className="h-24 w-20 rounded-xl border-2 border-dashed border-border" aria-label="Priya's empty chair" />
+              <PythonAdventureBook size={70} title="Part 1" spine="var(--character-priya)" />
+              <CycleArrows size={190} />
+              <PythonAdventureBook size={70} title="Part 2" spine="var(--character-dev)" />
+              <div className="h-24 w-20 rounded-xl border-2 border-dashed border-border" aria-label="Dev's empty chair" />
+            </div>
+            <span className="label-chip mx-auto">Part 1 → Part 2 → Part 1</span>
+            <p className="mx-auto max-w-2xl narration">
+              Priya and Dev are both gone. But each part is still needed, not by a person anymore, just by the other
+              part.
+            </p>
+            <p className="font-display text-xl font-semibold">So why doesn’t the librarian take them back?</p>
+            <ContinueButton onClick={() => go(5)} />
+          </div>
+        )}
+
+        {stage === 5 && <LibrarianCheck />}
       </Stage>
     </SceneShell>
+  );
+}
+
+function LibrarianCheck() {
+  const [shown, setShown] = useState(0);
+  const checks = [
+    ["Part 1", "Is anyone reading Part 1?", "No"],
+    ["Part 1", "Does anything else need Part 1?", "Yes, Part 2"],
+    ["Part 1", "Rule says something needs it, so…", "Keep it on the table"],
+    ["Part 2", "Is anyone reading Part 2?", "No"],
+    ["Part 2", "Does anything else need Part 2?", "Yes, Part 1"],
+    ["Part 2", "Rule says something needs it, so…", "Keep it on the table"],
+  ];
+  useEffect(() => {
+    if (shown >= checks.length) return;
+    const t = setTimeout(() => setShown((s) => s + 1), 1300);
+    return () => clearTimeout(t);
+  }, [shown, checks.length]);
+
+  return (
+    <div className="scene-enter grid gap-6">
+      <p className="mx-auto max-w-3xl text-center font-display text-2xl font-semibold">
+        “A book stays on the table as long as something still needs it.”
+      </p>
+      <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+        <div className="grid justify-items-center gap-4">
+          <Character name="librarian" size={110} />
+          <div className="flex items-center gap-2">
+            <div className="grid justify-items-center gap-1">
+              <PythonAdventureBook size={50} title="Part 1" spine="var(--character-priya)" />
+              <span className="label-chip">Still Needed</span>
+            </div>
+            <CycleArrows size={110} />
+            <div className="grid justify-items-center gap-1">
+              <PythonAdventureBook size={50} title="Part 2" spine="var(--character-dev)" />
+              <span className="label-chip">Still Needed</span>
+            </div>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            <RefCounter value={0} label="People reading" />
+            <div className="ref-counter">
+              <span className="ref-counter__label">Books needing each other</span>
+              <span className="ref-counter__value text-base">Still there</span>
+            </div>
+          </div>
+        </div>
+        <ol className="grid gap-2">
+          {checks.slice(0, shown).map(([book, q, a], i) => (
+            <li key={i} className="scene-enter scene-card flex flex-wrap items-center justify-between gap-2 px-4 py-2">
+              <span className="text-sm">
+                <strong>{book}:</strong> {q}
+              </span>
+              <strong className={a === "No" ? "text-[var(--danger)]" : "text-[var(--accent-strong)]"}>→ {a}</strong>
+            </li>
+          ))}
+        </ol>
+      </div>
+      {shown >= checks.length && (
+        <div className="scene-enter grid gap-3 text-center">
+          <Narration>
+            The librarian only asks one question: does something still need this book? She does not ask whether that
+            something is still needed by anyone. Part 2 needs Part 1, and Part 1 needs Part 2, so each one keeps the
+            other on the table.
+          </Narration>
+          <p className="font-display text-xl font-semibold">
+            The rule did not break. It has a blind spot: two books can keep each other needed, even when nobody is
+            left to read them.
+          </p>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -1015,71 +1209,118 @@ function Q5Python() {
 
 function Inspector() {
   const [stage, setStage] = useState(0);
-  const steps = ["The full rule", "Why she stops", "Inspector checks", "Both cleared"];
+  const steps = ["Second helper", "Reading chairs", "Check Part 1", "Check Part 2", "A book that stays", "The problem", "Cleared"];
+  const cleared = stage >= 6;
+
   return (
-    <SceneShell
-      eyebrow={stage < 2 ? "Why the books stay" : "The second helper"}
-      title={stage < 2 ? "The librarian checks one thing at a time" : "The Periodic Inspector"}
-    >
+    <SceneShell eyebrow="The second helper" title="The Periodic Inspector">
       <Stage>
         <LibraryBackdrop className="opacity-12" />
-        <div className="relative flex flex-wrap items-center justify-center gap-8">
-          <Character name={stage < 2 ? "librarian" : "inspector"} size={130} />
-          <div className={cn("flex items-center gap-4", stage >= 3 && "opacity-25")}>
-            <ObjectBox title="Part 1" items={["Printed: → Part 2"]} dimmed={stage >= 3} />
-            <CycleArrows size={150} />
-            <ObjectBox title="Part 2" items={["Printed: → Part 1"]} dimmed={stage >= 3} />
+        <StepPills steps={steps} stage={stage} setStage={setStage} />
+
+        <div className="relative flex flex-wrap items-center justify-center gap-6">
+          <div className="grid justify-items-center gap-2">
+            <Character name="inspector" size={120} />
+            <span className="label-chip">🕒 Visits every so often</span>
           </div>
+          {stage >= 1 && (
+            <div className="grid justify-items-center gap-1">
+              <div className="flex gap-2">
+                <div className="h-16 w-14 rounded-xl border-2 border-dashed border-border" />
+                <div className="h-16 w-14 rounded-xl border-2 border-dashed border-border" />
+              </div>
+              <span className="label-chip label-chip--muted">Priya & Dev chairs — empty</span>
+            </div>
+          )}
+          <div className={cn("flex items-center gap-3 transition-opacity duration-700", cleared && "opacity-15")}>
+            <div className={cn("rounded-xl p-1", stage === 2 && "ring-4 ring-[var(--danger)]")}>
+              <PythonAdventureBook size={60} title="Part 1" spine="var(--character-priya)" />
+            </div>
+            <CycleArrows size={130} />
+            <div className={cn("rounded-xl p-1", stage === 3 && "ring-4 ring-[var(--danger)]")}>
+              <PythonAdventureBook size={60} title="Part 2" spine="var(--character-dev)" />
+            </div>
+          </div>
+          {stage >= 4 && (
+            <div className="grid justify-items-center gap-1">
+              <div className="flex items-end gap-1">
+                <Character name="sam" size={70} seated showLabel={false} />
+                <PythonAdventureBook size={44} title="Another book" />
+              </div>
+              <span className="label-chip">✓ REACHABLE — KEEP THIS BOOK</span>
+            </div>
+          )}
         </div>
 
-        <div className="relative mt-8 flex flex-wrap justify-center gap-2">
-          {steps.map((l, i) => (
-            <button
-              key={l}
-              type="button"
-              onClick={() => setStage(i)}
-              className={cn(
-                "rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider",
-                stage === i
-                  ? "border-[var(--accent-strong)] bg-accent text-accent-foreground"
-                  : "border-border text-muted-foreground",
-              )}
-            >
-              {l}
-            </button>
-          ))}
-        </div>
-
-        <div className="relative mt-6 flex min-h-[120px] flex-col items-center justify-center gap-3 text-center">
+        <div className="relative mt-8 flex min-h-[140px] flex-col items-center justify-center gap-3 text-center">
           {stage === 0 && (
-            <p className="scene-enter max-w-3xl narration">
-              The librarian’s rule was always “does anything point to it — a reader, or something else?” This
-              time, each part points to the other, so both counters remain stuck at 1.
-            </p>
-          )}
-          {stage === 1 && (
-            <p className="scene-enter max-w-3xl narration">
-              She checks Part 1, sees Part 2 still points to it, and stops. She never traces further to ask
-              whether anyone is connected to Part 2. The same thing happens when she checks Part 2.
-            </p>
-          )}
-          {stage === 2 && (
             <div className="scene-enter grid gap-3">
-              <p className="max-w-3xl narration">
-                The inspector looks for pairs that only point at each other, with no reader connected anywhere
-                in the chain.
+              <p className="narration">The librarian can’t catch this. So the library has a second helper.</p>
+              <p className="max-w-2xl text-sm text-muted-foreground">
+                The inspector doesn’t watch the books all the time — they visit periodically and ask one question:
               </p>
-              <p className="font-display text-2xl font-semibold text-[var(--danger)] sm:text-3xl">
-                CYCLE FOUND · NO READERS ANYWHERE IN THE CHAIN
+              <p className="font-display text-xl font-semibold">
+                “Can a real person get to this book, directly or through other books?”
               </p>
             </div>
           )}
-          {stage === 3 && (
-            <p className="scene-enter font-display text-2xl font-semibold text-[var(--accent-strong)]">
-              Both parts cleared to the shelf together
+          {stage === 1 && (
+            <p className="scene-enter narration">
+              The inspector starts from the reading chairs, where real readers sit. There is nobody to start from.
             </p>
           )}
+          {stage === 2 && <p className="scene-enter font-display text-2xl font-semibold">No person leads to Part 1.</p>}
+          {stage === 3 && (
+            <div className="scene-enter grid gap-2">
+              <p className="font-display text-2xl font-semibold">No person leads to Part 2.</p>
+              <p className="text-sm text-muted-foreground">
+                They still refer to each other — but neither can be reached from an active reader.
+              </p>
+            </div>
+          )}
+          {stage === 4 && (
+            <p className="scene-enter max-w-2xl narration">
+              Elsewhere, Sam is reading a different book. The inspector follows the connection from Sam to the book —
+              it’s reachable, so it stays untouched.
+            </p>
+          )}
+          {stage === 5 && (
+            <div className="scene-enter grid gap-2">
+              <p className="font-display text-3xl font-semibold text-[var(--danger)]">CYCLE DETECTED</p>
+              <p className="font-display text-2xl font-semibold text-[var(--danger)]">NO OUTSIDE REFERENCES</p>
+              <p className="max-w-2xl narration">
+                Part 1 and Part 2 only lead to each other. No person can reach them. So, in our story, nobody can ever
+                need them again.
+              </p>
+            </div>
+          )}
+          {stage === 6 && (
+            <div className="scene-enter grid w-full gap-5">
+              <p className="font-display text-2xl font-semibold text-[var(--accent-strong)]">
+                Both parts cleared from the table together
+              </p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="scene-card p-4">
+                  <span className="label-chip">The Librarian</span>
+                  <p className="mt-2">Tracks what still needs a book.</p>
+                </div>
+                <div className="scene-card p-4">
+                  <span className="label-chip">The Periodic Inspector</span>
+                  <p className="mt-2">Checks whether a real person can reach the book.</p>
+                </div>
+              </div>
+              <h3 className="text-3xl font-semibold sm:text-4xl">Python’s Cyclic Garbage Collector</h3>
+              <p className="mx-auto max-w-3xl narration">
+                In Python, objects can refer to each other in a cycle. Even when the program can no longer reach those
+                objects, they may still reference one another. The cyclic garbage collector helps identify and reclaim
+                unreachable cycles of objects.
+              </p>
+              <p className="text-xs text-muted-foreground">A simplified picture — not every internal detail.</p>
+            </div>
+          )}
         </div>
+
+        {stage < 6 && <ContinueButton onClick={() => setStage((s) => s + 1)} />}
       </Stage>
     </SceneShell>
   );
