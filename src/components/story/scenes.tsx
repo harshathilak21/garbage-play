@@ -1152,22 +1152,27 @@ function Q4Python() {
         </Stage>
         <div className="grid gap-4">
           <Narration>
-            Story answer: the printed continuation lines still point Part 1 at Part 2, and Part 2 back at
-            Part 1.
+            Remember Priya and Dev? Priya finished Part 1 and left. Dev finished Part 2 and left. No reader
+            is holding either book anymore.
           </Narration>
           <p className="text-sm text-muted-foreground">
-            In Python, two objects that reference each other form a <strong>cyclic reference</strong>.
+            Yet Part 1's printed line still says <em>"Continued in Part 2"</em>, and Part 2's still says{" "}
+            <em>"Continued from Part 1"</em>. Each book is still pointed to — just by the other book.
+          </p>
+          <p className="text-sm text-muted-foreground">
+            In Python, when two objects point to each other like Part 1 and Part 2, it's called a{" "}
+            <strong>cyclic reference</strong>.
           </p>
           <div className="grid gap-3">
-            <RefCounter value={0} label="External References" />
+            <RefCounter value={0} label="Readers left (Priya & Dev gone)" />
             <div className="ref-counter">
-              <span className="ref-counter__label">Internal References</span>
+              <span className="ref-counter__label">Printed lines pointing (Part 1 ↔ Part 2)</span>
               <span className="ref-counter__value">2</span>
             </div>
           </div>
           <p className="text-sm text-muted-foreground">
-            Reference counting alone can never reclaim this pair: each object keeps the other’s count above
-            zero.
+            So the librarian's rule — "does anything point to it?" — always says yes, and neither part goes
+            back to the shelf. Reference counting alone can't free them.
           </p>
         </div>
       </div>
