@@ -621,7 +621,7 @@ function Questions() {
             { text: "Parts of a book can never be shelved." },
             { text: "They were checked out permanently." },
           ]}
-          reason="Part 1 ends with “Continued in Part 2,” and Part 2 opens with “Continued from Part 1.” Each printed line counts as something pointing at the other part, so by the librarian's normal rule neither one ever looks free."
+          reason="Priya finished Part 1 and left, and Dev finished Part 2 and left — but Part 1 still carries its printed line “Continued in Part 2,” and Part 2 still carries “Continued from Part 1.” So even with Priya and Dev both gone, each part still points at the other. By the librarian's normal rule, a book with anything pointing at it stays off the shelf — so the two parts keep holding each other there, forever."
           visual={
             <div className="flex flex-col items-center gap-4">
               <div className="flex flex-wrap items-center justify-center gap-6">
@@ -909,14 +909,13 @@ function PriyaReading({ onDone }: { onDone: () => void }) {
   const [page, setPage] = useState(1);
   const [phase, setPhase] = useState<"reading" | "note" | "leaving" | "gone">("reading");
   useEffect(() => {
-    if (phase === "reading") {
-      if (page < total) {
-        const t = setTimeout(() => setPage((p) => p + 1), 650);
-        return () => clearTimeout(t);
-      }
-      const t = setTimeout(() => setPhase("note"), 500);
+    if (phase !== "reading") return;
+    if (page < total) {
+      const t = setTimeout(() => setPage((p) => p + 1), 650);
       return () => clearTimeout(t);
     }
+    const t = setTimeout(() => setPhase("note"), 500);
+    return () => clearTimeout(t);
   }, [page, phase]);
 
   return (
