@@ -909,14 +909,13 @@ function PriyaReading({ onDone }: { onDone: () => void }) {
   const [page, setPage] = useState(1);
   const [phase, setPhase] = useState<"reading" | "note" | "leaving" | "gone">("reading");
   useEffect(() => {
-    if (phase === "reading") {
-      if (page < total) {
-        const t = setTimeout(() => setPage((p) => p + 1), 650);
-        return () => clearTimeout(t);
-      }
-      const t = setTimeout(() => setPhase("note"), 500);
+    if (phase !== "reading") return;
+    if (page < total) {
+      const t = setTimeout(() => setPage((p) => p + 1), 650);
       return () => clearTimeout(t);
     }
+    const t = setTimeout(() => setPhase("note"), 500);
+    return () => clearTimeout(t);
   }, [page, phase]);
 
   return (
